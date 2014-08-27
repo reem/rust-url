@@ -44,7 +44,7 @@
 <h1 class='fqn'><div class='in-band'>Crate <a class='mod' href=''>url</a><wbr></div><div class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-0' href='../src/url/home/travis/build/servo/rust-url/src/lib.rs.html#9-955'>[src]</a></div></h1>
+        </span><a id='src-0' href='../src/url/home/simon/projects/rust-url/src/lib.rs.html#9-995'>[src]</a></div></h1>
 <div class='docblock'><p><a href="https://github.com/servo/rust-url"><img style="position: absolute; top: 0; left: 0; border: 0;" src="../github.png" alt="Fork me on GitHub"></a>
 <style>.sidebar { margin-top: 53px }</style></p>
 
@@ -90,9 +90,9 @@ explicitly to rustc.</p>
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>scheme</span> <span class='op'>==</span> <span class='string'>&quot;https&quot;</span>.<span class='ident'>to_string</span>());
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>domain</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;github.com&quot;</span>));
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>port</span>() <span class='op'>==</span> <span class='prelude-val'>None</span>);
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>path</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span>[<span class='string'>&quot;rust-lang&quot;</span>.<span class='ident'>to_string</span>(),
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>path</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>([<span class='string'>&quot;rust-lang&quot;</span>.<span class='ident'>to_string</span>(),
                                         <span class='string'>&quot;rust&quot;</span>.<span class='ident'>to_string</span>(),
-                                        <span class='string'>&quot;issues&quot;</span>.<span class='ident'>to_string</span>()]));
+                                        <span class='string'>&quot;issues&quot;</span>.<span class='ident'>to_string</span>()].<span class='ident'>as_slice</span>()));
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>query</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;labels=E-easy&amp;state=open&quot;</span>.<span class='ident'>to_string</span>()));
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>fragment</span> <span class='op'>==</span> <span class='prelude-val'>None</span>);
 <span class='kw'>match</span> <span class='ident'>issue_list_url</span>.<span class='ident'>scheme_data</span> {
@@ -242,6 +242,14 @@ as used by HTML forms.</p>
                     </tr>
                 </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.parse_path.html'
+                               title='url::parse_path'>parse_path</a></td>
+                        <td class='docblock short'><p>Parse <code>input</code> as a “standalone” URL path,
+with an optional query string and fragment identifier.</p>
+</td>
+                    </tr>
+                
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.whatwg_scheme_type_mapper.html'
                                title='url::whatwg_scheme_type_mapper'>whatwg_scheme_type_mapper</a></td>

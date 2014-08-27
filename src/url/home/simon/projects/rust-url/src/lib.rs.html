@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/build/servo/rust-url/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/simon/projects/rust-url/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../../../../../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../../../main.css">
 
     
     
@@ -995,6 +995,46 @@
 <span id='953'>953</span>
 <span id='954'>954</span>
 <span id='955'>955</span>
+<span id='956'>956</span>
+<span id='957'>957</span>
+<span id='958'>958</span>
+<span id='959'>959</span>
+<span id='960'>960</span>
+<span id='961'>961</span>
+<span id='962'>962</span>
+<span id='963'>963</span>
+<span id='964'>964</span>
+<span id='965'>965</span>
+<span id='966'>966</span>
+<span id='967'>967</span>
+<span id='968'>968</span>
+<span id='969'>969</span>
+<span id='970'>970</span>
+<span id='971'>971</span>
+<span id='972'>972</span>
+<span id='973'>973</span>
+<span id='974'>974</span>
+<span id='975'>975</span>
+<span id='976'>976</span>
+<span id='977'>977</span>
+<span id='978'>978</span>
+<span id='979'>979</span>
+<span id='980'>980</span>
+<span id='981'>981</span>
+<span id='982'>982</span>
+<span id='983'>983</span>
+<span id='984'>984</span>
+<span id='985'>985</span>
+<span id='986'>986</span>
+<span id='987'>987</span>
+<span id='988'>988</span>
+<span id='989'>989</span>
+<span id='990'>990</span>
+<span id='991'>991</span>
+<span id='992'>992</span>
+<span id='993'>993</span>
+<span id='994'>994</span>
+<span id='995'>995</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2013-2014 Simon Sapin.</span>
 <span class='comment'>//</span>
@@ -1056,9 +1096,9 @@ let issue_list_url = Url::parse(
 assert!(issue_list_url.scheme == &quot;https&quot;.to_string());
 assert!(issue_list_url.domain() == Some(&quot;github.com&quot;));
 assert!(issue_list_url.port() == None);
-assert!(issue_list_url.path() == Some(&amp;[&quot;rust-lang&quot;.to_string(),
+assert!(issue_list_url.path() == Some([&quot;rust-lang&quot;.to_string(),
                                         &quot;rust&quot;.to_string(),
-                                        &quot;issues&quot;.to_string()]));
+                                        &quot;issues&quot;.to_string()].as_slice()));
 assert!(issue_list_url.query == Some(&quot;labels=E-easy&amp;state=open&quot;.to_string()));
 assert!(issue_list_url.fragment == None);
 match issue_list_url.scheme_data {
@@ -1347,6 +1387,46 @@ assert!(css_url.serialize() == &quot;http://servo.github.io/rust-url/main.css&qu
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>ParseResult</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
         <span class='ident'>parser</span>::<span class='ident'>parse_url</span>(<span class='ident'>input</span>, <span class='self'>self</span>)
     }
+
+    <span class='doccomment'>/// Parse `input` as a “standalone” URL path,</span>
+    <span class='doccomment'>/// with an optional query string and fragment identifier.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This is typically found in the start line of an HTTP header.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Note that while the start line has no fragment identifier in the HTTP RFC,</span>
+    <span class='doccomment'>/// servers typically parse it and ignore it</span>
+    <span class='doccomment'>/// (rather than having it be part of the path or query string.)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// On success, return `(path, query_string, fragment_identifier)`</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse_path</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>)
+                      <span class='op'>-&gt;</span> <span class='ident'>ParseResult</span><span class='op'>&lt;</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
+        <span class='ident'>parser</span>::<span class='ident'>parse_standalone_path</span>(<span class='ident'>input</span>, <span class='self'>self</span>)
+    }
+}
+
+
+<span class='doccomment'>/// Parse `input` as a “standalone” URL path,</span>
+<span class='doccomment'>/// with an optional query string and fragment identifier.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This is typically found in the start line of an HTTP header.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Note that while the start line has no fragment identifier in the HTTP RFC,</span>
+<span class='doccomment'>/// servers typically parse it and ignore it</span>
+<span class='doccomment'>/// (rather than having it be part of the path or query string.)</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// On success, return `(path, query_string, fragment_identifier)`</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```rust</span>
+<span class='doccomment'>/// let (path, query, fragment) = url::parse_path(&quot;/foo/bar/../baz?q=42&quot;).unwrap();</span>
+<span class='doccomment'>/// assert_eq!(path, vec![&quot;foo&quot;.to_string(), &quot;baz&quot;.to_string()]);</span>
+<span class='doccomment'>/// assert_eq!(query, Some(&quot;q=42&quot;.to_string()));</span>
+<span class='doccomment'>/// assert_eq!(fragment, None);</span>
+<span class='doccomment'>/// ```</span>
+<span class='attribute'>#[<span class='ident'>inline</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse_path</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>)
+                  <span class='op'>-&gt;</span> <span class='ident'>ParseResult</span><span class='op'>&lt;</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
+    <span class='ident'>UrlParser</span>::<span class='ident'>new</span>().<span class='ident'>parse_path</span>(<span class='ident'>input</span>)
 }
 
 
@@ -1991,13 +2071,13 @@ assert!(css_url.serialize() == &quot;http://servo.github.io/rust-url/main.css&qu
     
 
     <script>
-        window.rootPath = "../../../../../../../../";
+        window.rootPath = "../../../../../../../";
         window.currentCrate = "url";
         window.playgroundUrl = "";
     </script>
-    <script src="../../../../../../../../jquery.js"></script>
-    <script src="../../../../../../../../main.js"></script>
+    <script src="../../../../../../../jquery.js"></script>
+    <script src="../../../../../../../main.js"></script>
     
-    <script async src="../../../../../../../../search-index.js"></script>
+    <script async src="../../../../../../../search-index.js"></script>
 </body>
 </html>
